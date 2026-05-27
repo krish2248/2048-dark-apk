@@ -50,6 +50,20 @@ fun GameScreen(
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
+            when (event) {
+                androidx.lifecycle.Lifecycle.Event.ON_PAUSE -> viewModel.pauseTimer()
+                androidx.lifecycle.Lifecycle.Event.ON_RESUME -> viewModel.resumeTimer()
+                androidx.lifecycle.Lifecycle.Event.ON_STOP -> viewModel.saveOnExit()
+                else -> {}
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
 
     LaunchedEffect(viewModel.achievementMessage) {
         viewModel.achievementMessage?.let {
