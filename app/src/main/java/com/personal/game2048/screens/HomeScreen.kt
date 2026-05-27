@@ -83,16 +83,6 @@ fun HomeScreen(
                 textAlign = TextAlign.Center
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = "Join the numbers and\nget to the 2048 tile!",
-                fontSize = 14.sp,
-                fontFamily = FontFamily.Monospace,
-                color = subtitleColor,
-                textAlign = TextAlign.Center
-            )
-
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
@@ -211,7 +201,7 @@ fun HomeScreen(
         }
 
         Text(
-            text = "Dev - sonikrish.com",
+            text = "Developed ~ sonikrish.com",
             fontSize = 12.sp,
             fontFamily = FontFamily.Monospace,
             color = subtitleColor,
