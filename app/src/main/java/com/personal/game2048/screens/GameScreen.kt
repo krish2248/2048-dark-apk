@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,6 +49,7 @@ fun GameScreen(
     val labelColor = if (isDarkTheme) Color(0xFF888888) else Color(0xFF999999)
 
     val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(viewModel.achievementMessage) {
         viewModel.achievementMessage?.let {
@@ -267,7 +269,16 @@ fun GameScreen(
                     label = "Undo",
                     tint = accentColor,
                     bgColor = navBtnBg,
-                    onClick = { viewModel.undo() }
+                    onClick = {
+                        if (!viewModel.undo()) {
+                            scope.launch {
+                                snackbarHostState.showSnackbar(
+                                    "Nothing to undo",
+                                    duration = SnackbarDuration.Short
+                                )
+                            }
+                        }
+                    }
                 )
                 NavButton(
                     icon = Icons.Filled.BarChart,
