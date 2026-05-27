@@ -2,83 +2,107 @@
 
 ## Last Session
 - **Date**: 2026-05-27
-- **Session #**: 1
+- **Session #**: 2
 
-## What Was Completed
+## Current Status: APK BUILT AND WORKING
+- APK compiles and installs successfully on device
+- User has tested and confirmed gameplay works
+- PDF stats report generates and shares correctly
+
+---
+
+## Session 2 — What Was Done (2026-05-27 afternoon)
+
+### Setup & Build
+- [x] Verified user's Android SDK setup at `C:\Users\sonik\AppData\Local\Android\Sdk`
+- [x] Found JDK 21 bundled with Android Studio at `C:\Program Files\Android\Android Studio\jbr`
+- [x] Created `local.properties` with SDK path
+- [x] Created `gradlew.bat` and downloaded `gradle-wrapper.jar` for CLI builds
+- [x] Fixed compilation errors:
+  - Array type mismatch in `GameBoard.move()` grid copy
+  - `LocalLifecycleOwner` import path (`compose.ui.platform` not `lifecycle.compose`)
+  - Removed unused `beforeScore` variable
+- [x] Successfully built release APK (10.4 MB)
+
+### Features Added (PR #7 merged, 4 commits)
+- [x] **Home screen footer**: "Dev - sonikrish.com" clickable link at bottom, opens portfolio in browser
+- [x] **Dark PDF redesign**: Stats report now uses dark background (#0D0D0D), green accent text (#4CAF70), Typeface.MONOSPACE throughout, rounded stat cards, 3-column achievement grid
+- [x] **Achievements expanded: 13 → 27**: Added Dedicated, Veteran, Century Club, Rising Star, Expert, Unstoppable, Champion, Lightning, Getting Hooked, Time Flies, On a Roll, Committed, Halfway There, Beyond Limits
+
+### Bug Fixes
+- [x] Fixed PDF header overlap ("2048" and "Dark Edition" text were colliding — measured width at wrong font size)
+
+---
+
+## Session 1 — What Was Done (2026-05-27 morning)
 
 ### Core Project (27 individual commits)
-- [x] Read and understood full project spec (README, Setup Guide, Play Store Guide, reference image)
+- [x] Read full project spec (README, Setup Guide, Play Store Guide, reference image)
 - [x] Created GitHub repo: https://github.com/krish2248/2048-dark-apk
-- [x] Created complete Android project structure (Kotlin + Jetpack Compose)
-- [x] All Gradle build configs (root + app build.gradle.kts, settings, gradle.properties, wrapper)
-- [x] AndroidManifest.xml with FileProvider and custom theme
-- [x] All resource files (strings, colors, themes, file_paths, adaptive icons)
+- [x] Complete Android project structure (Kotlin + Jetpack Compose)
+- [x] All Gradle build configs, AndroidManifest.xml, resource files, adaptive icons
 
 ### Source Files Built
-- [x] ui/theme/Color.kt — full dark + light color palettes matching reference
-- [x] ui/theme/Type.kt — monospace typography
-- [x] ui/theme/Theme.kt — Material3 dark/light themes
-- [x] game/Tile.kt — tile data class
-- [x] game/GameBoard.kt — full game logic (move, merge, spawn, undo, win/loss)
-- [x] game/GameViewModel.kt — ViewModel with timer, undo stack (5 states), save/load
-- [x] storage/StatsStorage.kt — SharedPreferences for 11 stats + 13 achievements + streaks
-- [x] storage/GameSaveStorage.kt — save/load/clear mid-game state (JSON board)
-- [x] pdf/StatsPdfGenerator.kt — A4 PDF report with stats table + achievement checklist
-- [x] screens/HomeScreen.kt — centered layout, conditional Continue Game button
-- [x] screens/GameScreen.kt — full game UI matching reference image
-- [x] screens/StatsScreen.kt — stats grid + achievement badges (locked/unlocked)
-- [x] MainActivity.kt — NavHost, theme toggle, edge-to-edge display
+- [x] ui/theme/ — Color.kt, Type.kt, Theme.kt (dark + light themes)
+- [x] game/ — Tile.kt, GameBoard.kt (full 2048 logic), GameViewModel.kt
+- [x] storage/ — StatsStorage.kt (27 achievements, 11 stats, streaks), GameSaveStorage.kt
+- [x] pdf/ — StatsPdfGenerator.kt (dark themed, monospace, green accents)
+- [x] screens/ — HomeScreen.kt (centered), GameScreen.kt, StatsScreen.kt
+- [x] MainActivity.kt — NavHost, theme toggle, edge-to-edge
 
-### Bug Fixes Applied (10 commits)
-- [x] Fixed settings.gradle.kts (dependencyResolution → dependencyResolutionManagement)
-- [x] Enabled core library desugaring for API 21 LocalDate compatibility
-- [x] Fixed swipe detection (accumulate total drag, fire once on drag end)
-- [x] Added ProGuard rules, colors.xml, themes.xml
-- [x] Created adaptive launcher icon (vector drawable grid design)
-- [x] Custom theme with dark status/nav bars
-- [x] Updated manifest to use custom theme
-
-### Feature Branches + PRs (6 PRs merged)
-- [x] PR #1: Tile scale and fade animations (spring bounce on value change)
-- [x] PR #2: Edge-to-edge display with transparent status bar
-- [x] PR #3: Score bounce animation on value change
-- [x] PR #4: Live game timer display (m:ss format in subtitle row)
-- [x] PR #5: Undo snackbar feedback ("Nothing to undo")
-- [x] PR #6: Lifecycle-aware timer pause/resume + auto-save on background
+### Feature PRs Merged (PRs #1–#6)
+- [x] Tile scale/fade animations, edge-to-edge display, score bounce animation
+- [x] Live game timer display, undo snackbar feedback, lifecycle-aware timer
 
 ### User Requests Applied
-- [x] Hint button REMOVED from bottom nav (only Undo, Stats, Settings)
-- [x] Homepage elements CENTERED (vertically + horizontally)
-- [x] SESSION.md CREATED for tracking between sessions
+- [x] Hint button REMOVED from bottom nav
+- [x] Homepage elements CENTERED
+- [x] "Dev - sonikrish.com" footer added
+- [x] PDF dark themed with monospace font
+- [x] Achievements expanded to 27
+
+---
 
 ## GitHub Stats
-- **Total commits**: 49
-- **Pull requests**: 6 (all merged)
-- **Branches created**: 6 feature branches
+- **Total commits**: ~60
+- **Pull requests**: 7 (all merged)
+- **Branches created**: 7 feature branches
 
-## What's Next (Session 2)
-- [ ] User completes Android Studio / SDK / ANDROID_HOME setup
-- [ ] Run `./gradlew assembleRelease` to compile APK
-- [ ] Fix any compilation issues that arise
-- [ ] Test on emulator or physical device
-- [ ] Polish: generate proper PNG app icons if needed
-- [ ] Play Store preparation (optional, guide PDF provided)
+## What's Next (Session 3)
+- [ ] Test thoroughly on physical device (all screens, edge cases)
+- [ ] Generate proper PNG launcher icons (if vector icons look off on device)
+- [ ] Play Store preparation if desired (privacy policy, screenshots, AAB build)
+- [ ] Any UI polish or feature tweaks based on device testing
 
-## Key Decisions Made
-- Hint button removed per user request
-- Homepage uses Arrangement.Center + Alignment.CenterHorizontally
-- Bottom nav: 3 buttons (Undo, Stats, Settings)
-- FontFamily.Monospace (built-in) instead of custom font files
+## Build Instructions
+```
+# Set these before building (or build from Android Studio):
+set JAVA_HOME=C:\Program Files\Android\Android Studio\jbr
+set ANDROID_HOME=C:\Users\sonik\AppData\Local\Android\Sdk
+
+# Build release APK:
+gradlew.bat assembleRelease
+
+# APK output:
+app\build\outputs\apk\release\app-release.apk
+```
+
+## Key Technical Decisions
+- Hint button removed, bottom nav has 3 buttons (Undo, Stats, Settings)
+- Homepage centered with Arrangement.Center + Alignment.CenterHorizontally
+- FontFamily.Monospace (built-in) — no custom font files needed
 - Theme persisted via SharedPreferences key "g2048_theme_dark"
-- Core library desugaring enabled for java.time on API 21
-- Swipe fires once per gesture (accumulated drag direction on end)
+- Core library desugaring enabled for java.time on API 21+
+- Swipe fires once per gesture (accumulated drag, detect on end)
 - Tile animations: spring bounce (0.7→1.0) + fade in (120ms)
-- Score animation: bounce scale (1.15→1.0) on change
+- Score animation: bounce scale (1.15→1.0)
 - Lifecycle observer pauses timer and auto-saves on background
+- PDF: dark bg, green text, Typeface.MONOSPACE, 3-col achievements
+- Footer: "Dev - sonikrish.com" opens portfolio via ACTION_VIEW
 
 ## Project Info
 - **Package**: com.personal.game2048
 - **Min SDK**: 21 (Android 5.0)
 - **Target SDK**: 34 (Android 14)
 - **GitHub**: https://github.com/krish2248/2048-dark-apk
-- **Build**: `./gradlew assembleRelease` → `app/build/outputs/apk/release/app-release.apk`
+- **Portfolio**: https://sonikrish.com
