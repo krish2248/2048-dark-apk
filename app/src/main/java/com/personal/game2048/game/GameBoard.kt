@@ -45,8 +45,7 @@ class GameBoard {
     }
 
     fun move(direction: Direction): Boolean {
-        val before = grid.map { it.copyOf() }
-        val beforeScore = score
+        val before = Array(4) { grid[it].copyOf() }
 
         when (direction) {
             Direction.LEFT -> moveLeft()
