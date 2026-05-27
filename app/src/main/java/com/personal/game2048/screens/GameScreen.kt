@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontFamily
@@ -399,9 +400,34 @@ private fun TileCell(
     val bg = if (value == 0) emptyColor else tileColor(value)
     val is2048 = value == 2048
 
+    val animatedScale = remember { Animatable(1f) }
+    LaunchedEffect(value) {
+        if (value != 0) {
+            animatedScale.snapTo(0.7f)
+            animatedScale.animateTo(
+                targetValue = 1f,
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessMedium
+                )
+            )
+        }
+    }
+
+    val animatedAlpha by animateFloatAsState(
+        targetValue = if (value != 0) 1f else 0f,
+        animationSpec = tween(durationMillis = 120),
+        label = "tileAlpha"
+    )
+
     Box(
         modifier = modifier
             .aspectRatio(1f)
+            .graphicsLayer {
+                scaleX = if (value != 0) animatedScale.value else 1f
+                scaleY = if (value != 0) animatedScale.value else 1f
+                alpha = if (value != 0) animatedAlpha else 1f
+            }
             .then(
                 if (is2048) Modifier.shadow(12.dp, RoundedCornerShape(10.dp), ambientColor = Tile2048.copy(alpha = 0.6f))
                 else Modifier.shadow(2.dp, RoundedCornerShape(10.dp), ambientColor = Color.Black.copy(alpha = 0.3f))
