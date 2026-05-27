@@ -138,14 +138,28 @@ fun GameScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
-                text = "Join the numbers and get to the 2048 tile!",
-                fontSize = 12.sp,
-                fontFamily = FontFamily.Monospace,
-                color = subtitleColor,
+            Row(
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Join the numbers and get to the 2048 tile!",
+                    fontSize = 11.sp,
+                    fontFamily = FontFamily.Monospace,
+                    color = subtitleColor,
+                    modifier = Modifier.weight(1f)
+                )
+                val minutes = viewModel.elapsedSeconds / 60
+                val seconds = viewModel.elapsedSeconds % 60
+                Text(
+                    text = "%d:%02d".format(minutes, seconds),
+                    fontSize = 13.sp,
+                    fontFamily = FontFamily.Monospace,
+                    fontWeight = FontWeight.Medium,
+                    color = accentColor.copy(alpha = 0.7f)
+                )
+            }
 
             Spacer(modifier = Modifier.height(12.dp))
 
