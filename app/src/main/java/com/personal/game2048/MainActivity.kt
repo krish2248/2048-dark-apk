@@ -1,10 +1,18 @@
 package com.personal.game2048
 
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -22,6 +30,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = android.graphics.Color.TRANSPARENT
+            window.navigationBarColor = android.graphics.Color.parseColor("#111111")
+        }
+
         val prefs = getSharedPreferences("g2048_settings", MODE_PRIVATE)
         _isDarkTheme = prefs.getBoolean("g2048_theme_dark", true)
 
@@ -36,7 +51,11 @@ class MainActivity : ComponentActivity() {
             }
 
             Game2048Theme(isDarkTheme = isDarkTheme) {
-                NavHost(navController = navController, startDestination = "home") {
+                NavHost(
+                    navController = navController,
+                    startDestination = "home",
+                    modifier = Modifier.windowInsetsPadding(WindowInsets.systemBars)
+                ) {
 
                     composable("home") {
                         HomeScreen(
