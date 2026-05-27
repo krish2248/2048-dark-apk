@@ -70,8 +70,8 @@ class StatsPdfGenerator {
 
         // Header
         canvas.drawText("2048", ml, y, titlePaint)
-        titlePaint.textSize = 18f
-        canvas.drawText("Dark Edition", ml + titlePaint.measureText("2048  ") - 20f, y, Paint().apply {
+        val darkEditionX = ml + titlePaint.measureText("2048") + 10f
+        canvas.drawText("Dark Edition", darkEditionX, y, Paint().apply {
             color = dimGreen; textSize = 18f; isAntiAlias = true; typeface = Typeface.create(mono, Typeface.BOLD)
         })
         y += 24f
