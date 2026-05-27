@@ -160,18 +160,29 @@ fun GameScreen(
                     .background(gridBg)
                     .padding(8.dp)
                     .pointerInput(Unit) {
-                        detectDragGestures { change, dragAmount ->
-                            change.consume()
-                            val dx = dragAmount.x
-                            val dy = dragAmount.y
-                            if (abs(dx) < minSwipe && abs(dy) < minSwipe) return@detectDragGestures
-                            val direction = if (abs(dx) > abs(dy)) {
-                                if (dx > 0) Direction.RIGHT else Direction.LEFT
-                            } else {
-                                if (dy > 0) Direction.DOWN else Direction.UP
+                        var totalX = 0f
+                        var totalY = 0f
+                        detectDragGestures(
+                            onDragStart = {
+                                totalX = 0f
+                                totalY = 0f
+                            },
+                            onDrag = { change, dragAmount ->
+                                change.consume()
+                                totalX += dragAmount.x
+                                totalY += dragAmount.y
+                            },
+                            onDragEnd = {
+                                if (abs(totalX) >= minSwipe || abs(totalY) >= minSwipe) {
+                                    val direction = if (abs(totalX) > abs(totalY)) {
+                                        if (totalX > 0) Direction.RIGHT else Direction.LEFT
+                                    } else {
+                                        if (totalY > 0) Direction.DOWN else Direction.UP
+                                    }
+                                    viewModel.move(direction)
+                                }
                             }
-                            viewModel.move(direction)
-                        }
+                        )
                     }
             ) {
                 Column(
