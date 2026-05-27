@@ -367,6 +367,23 @@ private fun ScoreCard(
     labelColor: Color,
     modifier: Modifier = Modifier
 ) {
+    var prevValue by remember { mutableIntStateOf(value) }
+    val scoreFlash = remember { Animatable(1f) }
+
+    LaunchedEffect(value) {
+        if (value != prevValue && value > 0) {
+            prevValue = value
+            scoreFlash.snapTo(1.15f)
+            scoreFlash.animateTo(
+                targetValue = 1f,
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessLow
+                )
+            )
+        }
+    }
+
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
@@ -386,7 +403,11 @@ private fun ScoreCard(
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
             fontFamily = FontFamily.Monospace,
-            color = accentColor
+            color = accentColor,
+            modifier = Modifier.graphicsLayer {
+                scaleX = scoreFlash.value
+                scaleY = scoreFlash.value
+            }
         )
     }
 }
