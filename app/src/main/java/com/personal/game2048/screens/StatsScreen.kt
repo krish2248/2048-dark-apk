@@ -127,18 +127,32 @@ fun StatsScreen(
 
         val achievements = listOf(
             "first_game" to ("First Move" to "Play 1 game"),
+            "games_10" to ("Dedicated" to "Play 10 games"),
+            "games_50" to ("Veteran" to "Play 50 games"),
+            "games_100" to ("Century Club" to "Play 100 games"),
             "score_100" to ("Centurion" to "Score 100+"),
+            "score_500" to ("Rising Star" to "Score 500+"),
             "score_1000" to ("High Roller" to "Score 1,000+"),
+            "score_5000" to ("Expert" to "Score 5,000+"),
             "score_10000" to ("Legend" to "Score 10,000+"),
+            "score_50000" to ("Unstoppable" to "Score 50,000+"),
             "first_win" to ("First Win" to "Win 1 game"),
             "win_3" to ("Hat Trick" to "Win 3 games"),
+            "win_10" to ("Champion" to "Win 10 games"),
             "win_under_5min" to ("Speed Demon" to "Win in < 5 min"),
+            "win_under_3min" to ("Lightning" to "Win in < 3 min"),
+            "hours_1" to ("Getting Hooked" to "1+ hour played"),
+            "hours_5" to ("Time Flies" to "5+ hours played"),
             "hours_10" to ("Marathon" to "10+ hours played"),
+            "streak_3" to ("On a Roll" to "3-day streak"),
             "streak_7" to ("Devoted" to "7-day streak"),
+            "streak_14" to ("Committed" to "14-day streak"),
             "streak_30" to ("Obsessed" to "30-day streak"),
+            "tile_512" to ("Halfway There" to "Reach 512"),
             "tile_1024" to ("Tile Hunter" to "Reach 1024"),
             "tile_2048" to ("Master" to "Reach 2048"),
-            "tile_4096" to ("Grandmaster" to "Reach 4096")
+            "tile_4096" to ("Grandmaster" to "Reach 4096"),
+            "tile_8192" to ("Beyond Limits" to "Reach 8192")
         )
 
         for (i in achievements.indices step 2) {
