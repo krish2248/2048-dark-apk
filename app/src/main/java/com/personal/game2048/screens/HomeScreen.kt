@@ -1,8 +1,10 @@
 package com.personal.game2048.screens
 
 import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
@@ -206,5 +209,20 @@ fun HomeScreen(
                 )
             }
         }
+
+        Text(
+            text = "Dev - sonikrish.com",
+            fontSize = 12.sp,
+            fontFamily = FontFamily.Monospace,
+            color = subtitleColor,
+            textDecoration = TextDecoration.Underline,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 20.dp)
+                .clickable {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sonikrish.com"))
+                    context.startActivity(intent)
+                }
+        )
     }
 }
