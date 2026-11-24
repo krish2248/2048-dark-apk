@@ -37,4 +37,4 @@ The ranking needs the server in [`server/`](server/README.md) and its URL in `gr
 | `server/` | Cloudflare Worker + D1 ranking API |
 | `store/` | Play listing text and graphics |
 
-`README_2048_APK.md` is the original v1 spec, kept for history. [Privacy policy](PRIVACY.md). Space Grotesk is used under the SIL Open Font License.
+Start with [CONTEXT.md](CONTEXT.md). Launch checklist: [PLAYSTORE_STEPS.md](PLAYSTORE_STEPS.md). `README_2048_APK.md` is the original v1 spec, kept for history. [Privacy policy](PRIVACY.md). Space Grotesk is used under the SIL Open Font License.

@@ -10,12 +10,14 @@
 - Not yet run on a physical phone
 
 ## To Do Before Uploading To Play
+Full ordered list: `PLAYSTORE_STEPS.md`. Project context: `CONTEXT.md`.
 - [ ] Deploy the ranking server (steps in `server/README.md`, needs a Cloudflare login)
 - [ ] Put the URL in `gradle.properties`, rebuild with `gradlew.bat bundleRelease`
 - [ ] Decide whether to keep the application ID `com.personal.game2048` (permanent after first upload)
 - [ ] Back up the upload key: `C:\Users\sonik\keystores\` (never commit it)
 - [ ] Try it on a real phone: feel of the swipes, sound, vibration
 - [ ] Fill in the Play Console using `store/LISTING.md`
+- [ ] Closed test: 12 testers opted in for 14 days in a row (required for new personal accounts)
 
 ---
 
@@ -49,6 +51,7 @@
 - [x] targetSdk 36, minSdk 24, adaptive + monochrome icon, splash, edge-to-edge, predictive back, landscape/tablet
 - [x] Real upload key (v1 was debug-signed), backup rules, privacy policy, listing text, icon, feature graphic, screenshots
 - [x] v1 stats, theme and saved game are imported on first launch
+- [x] Added `PLAYSTORE_STEPS.md` and `CONTEXT.md`; store icon converted to the required 32-bit PNG
 
 ### v1 bugs fixed
 - [x] "Keep Playing" cleared the save and double-counted stats

@@ -61,7 +61,7 @@ The chosen country is not device location. If you publish without a server, answ
 
 1. `gradlew.bat bundleRelease` gives `app/build/outputs/bundle/release/app-release.aab`.
 2. Play Console > Create app > upload the AAB, keep Play App Signing on.
-3. New personal developer accounts must run a closed test before production access. Check the current tester count and duration in the Console.
+3. New personal developer accounts must run a closed test first: 12 testers for 14 days in a row. Full steps in `PLAYSTORE_STEPS.md`.
 4. Raise `versionCode` in `app/build.gradle.kts` for every upload.
 
 The application ID `com.personal.game2048` can never change after the first upload.
