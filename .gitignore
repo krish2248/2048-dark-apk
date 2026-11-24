@@ -1,11 +1,21 @@
 *.iml
 .gradle
-/local.properties
+.kotlin
 /.idea
 .DS_Store
 /build
+/app/build
 /captures
 .externalNativeBuild
 .cxx
 local.properties
-/app/build
+
+# signing material must never be committed
+keystore.properties
+*.jks
+*.keystore
+
+# server
+node_modules
+.wrangler
+.dev.vars
