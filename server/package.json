@@ -1,0 +1,13 @@
+{
+  "name": "dark2048-leaderboard",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/server.test.mjs",
+    "dev": "wrangler d1 migrations apply dark2048 --local && wrangler dev --ip 0.0.0.0 --port 8787",
+    "deploy": "wrangler d1 migrations apply dark2048 --remote && wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
