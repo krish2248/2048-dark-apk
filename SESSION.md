@@ -1,13 +1,67 @@
-# 2048 Dark Edition — Session Tracker
+# 2048 Dark Edition: Session Tracker
 
 ## Last Session
-- **Date**: 2026-05-27
-- **Session #**: 3
+- **Date**: 2026-11-25
+- **Session #**: 4
 
-## Current Status: APK BUILT AND TESTED ON DEVICE
-- App compiles, installs, and runs on physical Android device
-- User has played multiple games and confirmed everything works
-- All requested changes applied and verified
+## Current Status: v2.0.0 BUILT, SIGNED AND TESTED ON EMULATOR
+- Signed AAB and APK build cleanly; 13 app tests and 6 server tests pass
+- World ranking is built and tested against a local server, but **not deployed yet**: `leaderboardUrl` in `gradle.properties` is blank, so this build shows "Ranking isn't live yet"
+- Not yet run on a physical phone
+
+## To Do Before Uploading To Play
+- [ ] Deploy the ranking server (steps in `server/README.md`, needs a Cloudflare login)
+- [ ] Put the URL in `gradle.properties`, rebuild with `gradlew.bat bundleRelease`
+- [ ] Decide whether to keep the application ID `com.personal.game2048` (permanent after first upload)
+- [ ] Back up the upload key: `C:\Users\sonik\keystores\` (never commit it)
+- [ ] Try it on a real phone: feel of the swipes, sound, vibration
+- [ ] Fill in the Play Console using `store/LISTING.md`
+
+---
+
+## Session 4: v2.0.0 rewrite (2026-11-25)
+
+### Gameplay
+- [x] Endless: tiles stored as exponents, no win dialog, goal always moves to the next tile
+- [x] Modes: Classic 4x4, Grand 5x5, Blitz 3:00, Zen (unlimited undo, unranked)
+- [x] Seeded deterministic engine with a move log; 5 undos per ranked run, undo restores the RNG
+- [x] Game over can be rescued with a remaining undo
+- [x] Blitz hides the board while paused
+
+### Smoothness
+- [x] New `BoardAnimator` + canvas `BoardView`: tiles really glide, merge, pop, spawn
+- [x] Swipe fires at 16dp instead of on finger lift; tracks each finger, so two-thumb play works
+- [x] Mid-slide swipes retarget tiles from where they are: nothing queued or dropped
+- [x] Highest refresh rate requested; baseline profile rule; R8 (10.4 MB to 2.2 MB)
+- [x] Emulator, release build: 1 janky frame of 312 during rapid swiping, 0 missed vsync
+
+### Progression
+- [x] 18 ranks (Pebble to Infinite) from best Classic score, with drawn badges
+- [x] 74 achievements (v1 unlocks carry over), XP levels, 3 daily goals, streaks
+- [x] Stats per mode, score trend, tiles reached with fastest times, swipe directions, history, 2-page PDF
+- [x] 5 tile palettes unlocked by rank
+
+### World ranking
+- [x] `server/`: Cloudflare Worker + D1; replays every run to verify it; name filter, reports, bans, rate limits, deletion
+- [x] App: flag + name profile, World / My country / This week / Nations tabs, own row pinned, offline queue and cache
+
+### Play readiness
+- [x] targetSdk 36, minSdk 24, adaptive + monochrome icon, splash, edge-to-edge, predictive back, landscape/tablet
+- [x] Real upload key (v1 was debug-signed), backup rules, privacy policy, listing text, icon, feature graphic, screenshots
+- [x] v1 stats, theme and saved game are imported on first launch
+
+### v1 bugs fixed
+- [x] "Keep Playing" cleared the save and double-counted stats
+- [x] Best streak was never recorded for a one-day streak; achievements only unlocked when a game ended
+- [x] Settings button only toggled the theme
+
+### Key decisions
+- All local state lives in `Store` (JSON files, atomic, debounced). Run log is the source of truth for ranked scores.
+- `Engine.kt` and `server/src/engine.js` must change together; `server/test/vectors.json` pins both.
+- Zen never counts towards records, ranks or achievements.
+- Migrated v1 saves can be finished but not ranked (no move log).
+- Rank names are original on purpose (no CS names or art), to stay clear of Play IP claims.
+- Font is Space Grotesk (OFL); hint button stays removed; footer unchanged.
 
 ---
 
@@ -71,30 +125,18 @@
 
 ---
 
-## GitHub Stats
-- **Total commits**: ~63
-- **Pull requests**: 7 (all merged)
-- **Branches created**: 7 feature branches
-
-## What's Next (Session 4)
-- [ ] Any UI tweaks after more playtesting
-- [ ] Play Store preparation if desired (privacy policy, screenshots, AAB build)
-- [ ] Consider: haptic feedback on swipe, sound effects, or other polish
+## GitHub
+- https://github.com/krish2248/2048-dark-apk
 
 ## Build Instructions
 ```
-# Set these before building (or build from Android Studio):
-set JAVA_HOME=C:\Program Files\Android\Android Studio\jbr
-set ANDROID_HOME=C:\Users\sonik\AppData\Local\Android\Sdk
-
-# Build release APK:
-gradlew.bat assembleRelease
-
-# APK output:
-app\build\outputs\apk\release\app-release.apk
+gradlew.bat testDebugUnitTest
+gradlew.bat assembleDebug
+gradlew.bat bundleRelease     (app\build\outputs\bundle\release\app-release.aab)
 ```
+JDK 17, Android SDK at `C:\Users\sonik\AppData\Local\Android\Sdk`. Signing comes from the git-ignored `keystore.properties`.
 
-## Key Technical Decisions
+## Key Technical Decisions (v1, superseded where Session 4 differs)
 - Hint button removed, bottom nav: Undo, Stats, Settings
 - Homepage centered, no subtitle quote
 - Footer: "Developed ~ sonikrish.com" opens portfolio via ACTION_VIEW
@@ -110,7 +152,7 @@ app\build\outputs\apk\release\app-release.apk
 
 ## Project Info
 - **Package**: com.personal.game2048
-- **Min SDK**: 21 (Android 5.0)
-- **Target SDK**: 34 (Android 14)
+- **Min SDK**: 24 (Android 7.0)
+- **Target SDK**: 36 (Android 16)
 - **GitHub**: https://github.com/krish2248/2048-dark-apk
 - **Portfolio**: https://sonikrish.com
